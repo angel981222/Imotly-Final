@@ -307,15 +307,12 @@ function App() {
           <div className="footer-brand">
             <p className="font-semibold text-ink">imot.ly</p>
             <p className="footer-powered">
-              Power By
-              <a href="https://agiledelivery.eu" target="_blank" rel="noreferrer">
-                <img src="/assets/agile-delivery-logo.svg" alt="AgileDelivery" />
-                <span>AgileDelivery</span>
-              </a>
+              <span>Power By</span>
+              <a href="https://agiledelivery.eu" target="_blank" rel="noreferrer" aria-label="AgileDelivery website">AgileDelivery<span aria-hidden="true">↗</span></a>
             </p>
           </div>
           <address className="footer-contact">
-            <span>Контакти:</span>
+            <span>Контакти</span>
             <a href="mailto:info@agiledelivery.eu">info@agiledelivery.eu</a>
             <a href="tel:+359898203128">+359 898 203 128</a>
           </address>
