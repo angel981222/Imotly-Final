@@ -1,4 +1,5 @@
-import type { LucideIcon } from "lucide-react";
+import { useState } from "react";
+import { ChevronDown, type LucideIcon } from "lucide-react";
 
 type FeatureCardProps = {
   icon: LucideIcon;
@@ -7,13 +8,23 @@ type FeatureCardProps = {
 };
 
 export function FeatureCard({ icon: Icon, title, description }: FeatureCardProps) {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <article className="card group">
-      <div className="icon-badge" aria-hidden="true">
-        <Icon size={20} strokeWidth={2} />
-      </div>
-      <h3 className="mt-5 text-lg font-semibold text-ink">{title}</h3>
-      <p className="mt-3 text-sm leading-6 text-ink/70">{description}</p>
+    <article className={`card feature-card group ${isOpen ? "is-open" : ""}`}>
+      <button
+        className="feature-card-toggle"
+        type="button"
+        aria-expanded={isOpen}
+        onClick={() => setIsOpen((current) => !current)}
+      >
+        <span className="icon-badge" aria-hidden="true">
+          <Icon size={20} strokeWidth={2} />
+        </span>
+        <span className="feature-card-title">{title}</span>
+        <ChevronDown className="feature-card-chevron" size={19} aria-hidden="true" />
+      </button>
+      <p className="feature-card-description">{description}</p>
     </article>
   );
 }
