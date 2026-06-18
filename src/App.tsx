@@ -14,10 +14,8 @@ import {
 import { FeatureCard, SimpleCard } from "./components/Cards";
 import { SectionHeader } from "./components/SectionHeader";
 import {
-  examples,
   faqs,
   features,
-  footerLinks,
   hero,
   navLinks,
   personas,
@@ -276,20 +274,6 @@ function App() {
           </div>
         </section>
 
-        <section className="section">
-          <div className="container">
-            <SectionHeader eyebrow="Примери" title="Реални търсения, написани нормално." />
-            <div className="mt-10 grid gap-4 md:grid-cols-2">
-              {examples.map((example) => (
-                <article key={example} className="example-card">
-                  <MapPinned size={20} className="text-mint" aria-hidden="true" />
-                  <p>{example}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
         <section className="section bg-white" id="faq">
           <div className="container">
             <SectionHeader eyebrow="Въпроси" title="Кратко и по същество." />
@@ -320,17 +304,21 @@ function App() {
 
       <footer className="border-t border-ink/10 bg-paper py-8">
         <div className="container flex flex-col gap-5 text-sm text-ink/60 md:flex-row md:items-center md:justify-between">
-          <div>
+          <div className="footer-brand">
             <p className="font-semibold text-ink">imot.ly</p>
-            <p>Agile Delivery</p>
-          </div>
-          <div className="flex gap-5">
-            {footerLinks.map((link) => (
-              <a key={link} href="#" className="hover:text-ink">
-                {link}
+            <p className="footer-powered">
+              Power By
+              <a href="https://agiledelivery.eu" target="_blank" rel="noreferrer">
+                <img src="/assets/agile-delivery-logo.svg" alt="AgileDelivery" />
+                <span>AgileDelivery</span>
               </a>
-            ))}
+            </p>
           </div>
+          <address className="footer-contact">
+            <span>Контакти:</span>
+            <a href="mailto:info@agiledelivery.eu">info@agiledelivery.eu</a>
+            <a href="tel:+359898203128">+359 898 203 128</a>
+          </address>
         </div>
       </footer>
     </div>
