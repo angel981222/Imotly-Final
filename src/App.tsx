@@ -1,13 +1,17 @@
+import { useState } from "react";
 import {
   Bell,
   Building2,
   Check,
+  ChevronDown,
   Clock3,
   AppWindow,
   Layers3,
   MapPinned,
   MessageCircle,
   Search,
+  Briefcase,
+  UserRound,
   Send,
   SlidersHorizontal,
 } from "lucide-react";
@@ -28,9 +32,12 @@ import {
 } from "./content/siteContent";
 
 const featureIcons = [Building2, Clock3, Layers3, SlidersHorizontal, AppWindow, MessageCircle];
+const personaIcons = [UserRound, Briefcase];
 const stepIcons = [Send, Search, Bell];
 
 function App() {
+  const [openStep, setOpenStep] = useState<string | null>(null);
+
   return (
     <div className="min-h-screen bg-paper text-ink">
       <header className="sticky top-0 z-40 border-b border-ink/10 bg-paper/90 backdrop-blur-xl">
@@ -183,8 +190,8 @@ function App() {
           <div className="container">
             <SectionHeader eyebrow="За кого е" title="Един бот за лично търсене и професионална работа." />
             <div className="mt-10 grid gap-5 md:grid-cols-2">
-              {personas.map((persona) => (
-                <SimpleCard key={persona.title} {...persona} />
+              {personas.map((persona, index) => (
+                <SimpleCard key={persona.title} icon={personaIcons[index]} {...persona} />
               ))}
             </div>
           </div>
@@ -259,14 +266,23 @@ function App() {
             <div className="mt-10 grid gap-5 md:grid-cols-3">
               {steps.map((step, index) => {
                 const Icon = stepIcons[index];
+                const isOpen = openStep === step.title;
                 return (
-                  <article key={step.title} className="step-card">
-                    <div className="icon-badge">
-                      <Icon size={21} aria-hidden="true" />
-                    </div>
+                  <article key={step.title} className={`step-card ${isOpen ? "is-open" : ""}`}>
+                    <button
+                      className="step-card-toggle"
+                      type="button"
+                      aria-expanded={isOpen}
+                      onClick={() => setOpenStep((current) => (current === step.title ? null : step.title))}
+                    >
+                      <span className="icon-badge">
+                        <Icon size={21} aria-hidden="true" />
+                      </span>
+                      <span className="step-card-title">{step.title}</span>
+                      <ChevronDown className="step-card-chevron" size={19} aria-hidden="true" />
+                    </button>
                     <span className="step-number">0{index + 1}</span>
-                    <h3>{step.title}</h3>
-                    <p>{step.description}</p>
+                    <p className="step-card-description">{step.description}</p>
                   </article>
                 );
               })}

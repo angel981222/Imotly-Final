@@ -14,10 +14,18 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
   margin: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+#root {
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 a {
@@ -34,7 +42,7 @@ summary {
   }
 
   .section {
-    @apply py-12 sm:py-16 lg:py-20;
+    @apply overflow-x-hidden py-12 sm:py-16 lg:py-20;
   }
 
   .section-eyebrow {
@@ -75,6 +83,7 @@ summary {
   }
 
   .hero-section {
+    @apply overflow-x-hidden;
     background:
       radial-gradient(circle at 10% 15%, rgba(14, 143, 112, 0.11), transparent 28rem),
       radial-gradient(circle at 82% 20%, rgba(185, 51, 69, 0.08), transparent 24rem),
@@ -302,6 +311,41 @@ summary {
     }
   }
 
+
+  .simple-card {
+    @apply p-0;
+  }
+
+  .simple-card-toggle {
+    @apply flex w-full items-center gap-4 rounded-lg p-5 text-left transition hover:bg-ink/[0.03] focus:outline-none focus:ring-2 focus:ring-mint focus:ring-offset-2 sm:block sm:p-6 sm:hover:bg-transparent sm:focus:ring-0 sm:focus:ring-offset-0;
+  }
+
+  .simple-card-title {
+    @apply flex-1 text-xl font-semibold leading-snug text-ink;
+  }
+
+  .simple-card-chevron {
+    @apply shrink-0 text-mint transition-transform sm:hidden;
+  }
+
+  .simple-card.is-open .simple-card-chevron {
+    @apply rotate-180;
+  }
+
+  .simple-card-description {
+    @apply hidden px-5 pb-5 leading-7 text-ink/70 sm:block sm:px-6 sm:pb-6;
+  }
+
+  .simple-card.is-open .simple-card-description {
+    @apply block;
+  }
+
+  @media (min-width: 640px) {
+    .simple-card .icon-badge {
+      margin-bottom: 1.25rem;
+    }
+  }
+
   .icon-badge {
     @apply flex h-11 w-11 items-center justify-center rounded-lg bg-mint/10 text-mint;
   }
@@ -314,19 +358,19 @@ summary {
   }
 
   .solution-strip {
-    @apply grid gap-4 rounded-lg border border-ink/10 bg-paper p-4 shadow-soft sm:grid-cols-3;
+    @apply grid gap-3 rounded-lg border border-ink/10 bg-paper p-3 shadow-soft sm:gap-4 sm:p-4 md:grid-cols-3;
   }
 
   .solution-step {
-    @apply rounded-lg bg-white p-5;
+    @apply flex items-center gap-3 rounded-lg bg-white p-4 sm:block sm:p-5;
   }
 
   .solution-step span {
-    @apply mb-8 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-ink text-sm font-semibold text-white;
+    @apply inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-ink text-sm font-semibold text-white sm:mb-8;
   }
 
   .solution-step strong {
-    @apply block text-lg text-ink;
+    @apply block text-base font-semibold leading-snug text-ink sm:text-lg;
   }
 
   .pricing-card {
@@ -334,7 +378,7 @@ summary {
   }
 
   .photo-section {
-    @apply border-y border-ink/10 bg-white py-12 sm:py-16 lg:py-20;
+    @apply overflow-x-hidden border-y border-ink/10 bg-white py-12 sm:py-16 lg:py-20;
   }
 
   .photo-card {
@@ -373,22 +417,44 @@ summary {
   }
 
   .step-card {
-    @apply relative rounded-lg border border-ink/10 bg-paper p-6 shadow-sm;
+    @apply relative rounded-lg border border-ink/10 bg-paper p-0 shadow-sm;
     animation: reveal-card 0.7s ease both;
     animation-timeline: view();
     animation-range: entry 0% cover 28%;
+  }
+
+  .step-card-toggle {
+    @apply flex w-full items-center gap-4 rounded-lg p-5 pr-12 text-left transition hover:bg-ink/[0.03] focus:outline-none focus:ring-2 focus:ring-mint focus:ring-offset-2 md:block md:p-6 md:hover:bg-transparent md:focus:ring-0 md:focus:ring-offset-0;
   }
 
   .step-number {
     @apply absolute right-5 top-5 text-sm font-semibold text-ink/30;
   }
 
-  .step-card h3 {
-    @apply mt-8 text-xl font-semibold text-ink;
+  .step-card-title {
+    @apply flex-1 text-xl font-semibold leading-snug text-ink;
   }
 
-  .step-card p {
-    @apply mt-3 leading-7 text-ink/70;
+  .step-card-chevron {
+    @apply shrink-0 text-mint transition-transform md:hidden;
+  }
+
+  .step-card.is-open .step-card-chevron {
+    @apply rotate-180;
+  }
+
+  .step-card-description {
+    @apply hidden px-5 pb-5 leading-7 text-ink/70 md:block md:px-6 md:pb-6;
+  }
+
+  .step-card.is-open .step-card-description {
+    @apply block;
+  }
+
+  @media (min-width: 768px) {
+    .step-card .icon-badge {
+      margin-bottom: 2rem;
+    }
   }
 
   .example-card {
@@ -670,6 +736,24 @@ summary {
   .footer-contact {
     justify-items: end;
     text-align: right;
+  }
+}
+
+@supports (overflow-x: clip) {
+  html,
+  body,
+  #root,
+  .section,
+  .hero-section,
+  .photo-section,
+  .final-cta {
+    overflow-x: clip;
+  }
+}
+
+@media (max-width: 640px) {
+  .listing-card {
+    animation-name: listing-glow;
   }
 }
 
