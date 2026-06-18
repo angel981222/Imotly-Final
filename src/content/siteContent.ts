@@ -1,4 +1,4 @@
-export const telegramUrl = "https://t.me/imotly_bot";
+export const telegramUrl = "https://t.me/imotify_bot";
 
 export const navLinks = [
   { label: "Как работи", href: "#kak-raboti" },
@@ -46,31 +46,28 @@ export const photoShowcase = [
     title: "Градски контекст",
     description: "Търсене по квартали, бюджет и тип имот, без да прескачаш между сайтове.",
     imageUrl: "https://images.pexels.com/photos/7258248/pexels-photo-7258248.jpeg?auto=compress&cs=tinysrgb&w=900",
-    sourceUrl: "https://www.pexels.com/photo/an-apartment-buildings-on-the-street-under-the-blue-sky-7258248/",
     alt: "Жилищна сграда в София с много прозорци",
   },
   {
     title: "Подходящото жилище",
     description: "Получаваш само новите съвпадения, които отговарят на зададените филтри.",
     imageUrl: "https://images.pexels.com/photos/7147291/pexels-photo-7147291.jpeg?auto=compress&cs=tinysrgb&w=900",
-    sourceUrl: "https://www.pexels.com/photo/modern-apartment-with-spacious-living-room-and-kitchen-area-7147291/",
     alt: "Модерен апартамент с дневна и кухненски кът",
   },
   {
     title: "Работа с клиенти",
     description: "Брокерите могат да следят няколко отделни сценария паралелно.",
-    imageUrl: "https://images.pexels.com/photos/31015267/pexels-photo-31015267.jpeg?auto=compress&cs=tinysrgb&w=900",
-    sourceUrl: "https://www.pexels.com/photo/real-estate-agent-holding-new-home-keys-31015267/",
-    alt: "Брокер държи ключове за имот",
+    imageUrl: "/assets/clients-meeting.png",
+    alt: "Брокер разговаря с клиенти за имот",
   },
 ];
 
 export const features = [
-  { title: "3 основни източника", description: "Обяви от imot.bg, olx.bg и alo.bg на едно място." },
+  { title: "3 основни източника", description: "Обяви от imot.bg, olx.bg и alo.bg на едно място. Ти избираш кои от тях да следиш." },
   { title: "Почасово, дневно или при поискване", description: "Избираш честотата според това колко бързо искаш да реагираш." },
   { title: "Няколко активни търсения", description: "Удобно за лични сценарии и работа с повече клиенти." },
-  { title: "Детайлни филтри", description: "Локация, цена, тип имот, площ, стаи и други важни критерии." },
-  { title: "Филтър по източник", description: "Включи само сайтовете, които искаш да следиш." },
+  { title: "Детайлни филтри", description: "Без ограничение до: локация, цена, тип имот, площ, стаи. Всички останали детайлни филтри са налични." },
+  { title: "Модерен Telegram интерфейс", description: "Възможност за разглеждане на обявите в модерно, функционално приложение вътре в Telegram." },
   { title: "Telegram на първо място", description: "Без ново приложение. Обявите идват директно в чата." },
 ];
 

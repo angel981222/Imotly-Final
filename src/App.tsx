@@ -3,7 +3,7 @@ import {
   Building2,
   Check,
   Clock3,
-  Filter,
+  AppWindow,
   Layers3,
   MapPinned,
   MessageCircle,
@@ -29,7 +29,7 @@ import {
   telegramUrl,
 } from "./content/siteContent";
 
-const featureIcons = [Building2, Clock3, Layers3, SlidersHorizontal, Filter, MessageCircle];
+const featureIcons = [Building2, Clock3, Layers3, SlidersHorizontal, AppWindow, MessageCircle];
 const stepIcons = [Send, Search, Bell];
 
 function App() {
@@ -171,7 +171,7 @@ function App() {
               <p className="section-description mx-0 text-left">{solution.description}</p>
             </div>
             <div className="solution-strip">
-              {["Филтри", "Следене", "Telegram"].map((item, index) => (
+              {["Комплексни филтри", "Лесно следене", "Функционален дизайн"].map((item, index) => (
                 <div key={item} className="solution-step">
                   <span>{index + 1}</span>
                   <strong>{item}</strong>
@@ -212,9 +212,6 @@ function App() {
                   <figcaption>
                     <h3>{photo.title}</h3>
                     <p>{photo.description}</p>
-                    <a href={photo.sourceUrl} target="_blank" rel="noreferrer">
-                      Източник
-                    </a>
                   </figcaption>
                 </figure>
               ))}
