@@ -1,4 +1,4 @@
-export const telegramUrl = "https://t.me/imotify_bot";
+export const telegramUrl = "https://t.me/imotlyai_bot";
 
 export const navLinks = [
   { label: "Как работи", href: "#kak-raboti" },
