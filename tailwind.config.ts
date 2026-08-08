@@ -5,10 +5,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: "#16211f",
-        mint: "#0e8f70",
-        rose: "#b93345",
-        paper: "#fbfaf7",
+        ink: "#171717",
+        muted: "#66645F",
+        line: "#EDE4D2",
+        paper: "#FFFBF2",
+        brand: "#2563EB",
+        brandDark: "#1E4FD1",
+        brandSoft: "#EEF4FF",
+        clay: "#C76F4A",
+        honey: "#FBBF24",
       },
       fontFamily: {
         sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
@@ -17,7 +22,9 @@ export default {
         xs: "380px",
       },
       boxShadow: {
-        soft: "0 18px 60px rgba(22, 33, 31, 0.10)",
+        card: "0 2px 12px rgba(23, 23, 23, 0.06)",
+        soft: "0 24px 80px rgba(23, 23, 23, 0.10)",
+        button: "0 10px 28px rgba(37, 99, 235, 0.25)",
       },
     },
   },

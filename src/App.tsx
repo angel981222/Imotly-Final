@@ -1,351 +1,330 @@
-import { useState } from "react";
 import {
   Bell,
-  Building2,
-  Check,
-  ChevronDown,
-  Clock3,
-  AppWindow,
-  Layers3,
-  MapPinned,
-  MessageCircle,
-  Search,
   Briefcase,
-  UserRound,
+  Building2,
+  Clock3,
+  Search,
   Send,
   SlidersHorizontal,
+  UserRound,
 } from "lucide-react";
-import { FeatureCard, SimpleCard } from "./components/Cards";
+import { ButtonLink } from "./components/Buttons";
+import { FAQAccordion, IconCard, PhotoCard, PricingCard, ProductFrame, ValueItem } from "./components/Cards";
 import { SectionHeader } from "./components/SectionHeader";
 import {
+  audiences,
   faqs,
-  features,
+  finalCta,
   hero,
+  howItWorks,
   navLinks,
-  personas,
   photoShowcase,
   pricing,
-  problemItems,
-  solution,
-  steps,
+  scenario,
   telegramUrl,
+  trustPoints,
 } from "./content/siteContent";
 
-const featureIcons = [Building2, Clock3, Layers3, SlidersHorizontal, AppWindow, MessageCircle];
-const personaIcons = [UserRound, Briefcase];
-const stepIcons = [Send, Search, Bell];
+const valueIcons = [Building2, Bell, Clock3];
+const stepIcons = [SlidersHorizontal, Search, Send];
+const audienceIcons = [UserRound, Building2, Briefcase];
 
 function App() {
-  const [openStep, setOpenStep] = useState<string | null>(null);
-
   return (
-    <div className="min-h-screen bg-paper text-ink">
-      <header className="sticky top-0 z-40 border-b border-ink/10 bg-paper/90 backdrop-blur-xl">
-        <nav className="container flex h-16 items-center justify-between" aria-label="Основна навигация">
-          <a href="#" className="flex items-center gap-2 font-semibold tracking-normal text-ink" aria-label="imot.ly начало">
-            <span className="brand-mark">i</span>
-            <span>imot.ly</span>
-          </a>
-          <div className="hidden items-center gap-6 text-sm text-ink/70 md:flex">
-            {navLinks.map((link) => (
-              <a key={link.href} href={link.href} className="transition hover:text-ink">
-                {link.label}
-              </a>
-            ))}
-          </div>
-          <a href={telegramUrl} className="btn btn-primary min-h-10 px-3 py-2 sm:min-h-11 sm:px-5 sm:py-3">
-            <Send size={17} />
-            <span className="hidden xs:inline">Стартирай</span>
-            <span className="xs:hidden">Telegram</span>
-          </a>
-        </nav>
-      </header>
-
+    <div className="site-shell">
+      <Header />
       <main>
-        <section className="hero-section">
-          <div className="container grid items-center gap-10 py-12 sm:py-16 md:grid-cols-[1fr_0.92fr] md:py-24">
-            <div>
-              <p className="inline-flex items-center gap-2 rounded-full border border-mint/20 bg-white/70 px-3 py-1 text-sm font-medium text-mint">
-                <span className="h-2 w-2 rounded-full bg-rose" />
-                {hero.badge}
-              </p>
-              <h1 className="mt-6 max-w-4xl text-4xl font-semibold leading-tight text-ink sm:text-5xl lg:text-6xl">
-                {hero.title}
-              </h1>
-              <p className="mt-5 max-w-2xl text-base leading-7 text-ink/70 sm:mt-6 sm:text-lg sm:leading-8">{hero.description}</p>
-              <div className="mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row">
-                <a href={telegramUrl} className="btn btn-primary">
-                  <Send size={18} />
-                  {hero.primaryCta}
-                </a>
-                <a href="#kak-raboti" className="btn btn-secondary">
-                  {hero.secondaryCta}
-                </a>
-              </div>
-              <div className="mt-7 flex flex-wrap gap-3 text-sm text-ink/60 sm:mt-9">
-                {["imot.bg", "olx.bg", "alo.bg"].map((source) => (
-                  <span key={source} className="source-pill">
-                    {source}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="hero-panel" aria-label="Примерен Telegram чат с имотни обяви">
-              <div className="map-grid" />
-              <div className="search-radar" aria-hidden="true">
-                <span />
-                <span />
-                <span />
-              </div>
-              <div className="city-line" aria-hidden="true">
-                {[22, 36, 28, 48, 32, 42, 26].map((height, index) => (
-                  <span key={index} style={{ height: `${height}px` }} />
-                ))}
-              </div>
-              <div className="property-orbit" aria-hidden="true">
-                <Building2 className="property-icon building-one" size={42} strokeWidth={1.6} />
-                <MapPinned className="property-icon pin-one" size={38} strokeWidth={1.6} />
-                <KeyIcon />
-              </div>
-              <div className="telegram-window">
-                <div className="chat-header">
-                  <span className="brand-mark small">i</span>
-                  <div>
-                    <p className="text-sm font-semibold">imot.ly бот</p>
-                    <p className="text-xs text-mint">активно търсене</p>
-                  </div>
-                </div>
-                <div className="chat-message muted">Двустаен, София, Лозенец / Иван Вазов, до 700 EUR</div>
-                <div className="listing-card">
-                  <div className="flex items-center justify-between gap-4">
-                    <p className="font-semibold">Нова обява от imot.bg</p>
-                    <span>преди 4 мин</span>
-                  </div>
-                  <p className="mt-2 text-sm text-ink/70">2 стаи · 64 кв.м · близо до метро · 680 EUR</p>
-                </div>
-                <div className="listing-card alt">
-                  <div className="flex items-center justify-between gap-4">
-                    <p className="font-semibold">Съвпадение от olx.bg</p>
-                    <span>преди 11 мин</span>
-                  </div>
-                  <p className="mt-2 text-sm text-ink/70">Обзаведен · южно изложение · 650 EUR</p>
-                </div>
-                <div className="chat-actions">
-                  <span>Всеки час</span>
-                  <span>Само нови</span>
-                  <span>2 източника</span>
-                </div>
-              </div>
-              <div className="floating-alert alert-one" aria-hidden="true">
-                <span className="alert-dot" />
-                <strong>Нов имот</strong>
-                <small>Лозенец · 680 EUR</small>
-              </div>
-              <div className="floating-alert alert-two" aria-hidden="true">
-                <span className="alert-dot rose-dot" />
-                <strong>Съвпадение</strong>
-                <small>imot.bg · преди 2 мин</small>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="section">
-          <div className="container">
-            <SectionHeader
-              eyebrow="Проблемът"
-              title="Търсенето на имот не трябва да е часове скролване ежедневно."
-            />
-            <div className="mt-10 grid gap-4 md:grid-cols-3">
-              {problemItems.map((item) => (
-                <article key={item} className="problem-card">
-                  <Check className="text-rose" size={20} aria-hidden="true" />
-                  <p>{item}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="section bg-white">
-          <div className="container grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-            <div>
-              <p className="section-eyebrow text-left">Решението</p>
-              <h2 className="section-title text-left">{solution.title}</h2>
-              <p className="section-description mx-0 text-left">{solution.description}</p>
-            </div>
-            <div className="solution-strip">
-              {["Комплексни филтри", "Лесно следене", "Функционален дизайн"].map((item, index) => (
-                <div key={item} className="solution-step">
-                  <span>{index + 1}</span>
-                  <strong>{item}</strong>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="section">
-          <div className="container">
-            <SectionHeader eyebrow="За кого е" title="Един бот за лично търсене и професионална работа." />
-            <div className="mt-10 grid gap-5 md:grid-cols-2">
-              {personas.map((persona, index) => (
-                <SimpleCard key={persona.title} icon={personaIcons[index]} {...persona} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="photo-section" aria-labelledby="photo-showcase-title">
-          <div className="container">
-            <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-              <div>
-                <p className="section-eyebrow text-left">На практика</p>
-                <h2 id="photo-showcase-title" className="section-title text-left">
-                  Реални имотни ситуации, без излишен шум.
-                </h2>
-              </div>
-              <p className="max-w-xl leading-7 text-ink/70">
-                imot.ly е направен за ежедневното търсене: квартали, конкретни критерии, бърза реакция и няколко активни сценария.
-              </p>
-            </div>
-            <div className="mt-10 grid gap-5 md:grid-cols-3">
-              {photoShowcase.map((photo) => (
-                <figure key={photo.title} className="photo-card">
-                  <img src={photo.imageUrl} alt={photo.alt} loading="lazy" decoding="async" />
-                  <figcaption>
-                    <h3>{photo.title}</h3>
-                    <p>{photo.description}</p>
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="section bg-ink text-white" id="vazmozhnosti">
-          <div className="container">
-            <SectionHeader
-              eyebrow="Възможности"
-              title="Контрол върху обявите, без шум."
-              description="Фокусът е върху скорост, точни филтри и яснота в Telegram."
-            />
-            <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {features.map((feature, index) => (
-                <FeatureCard key={feature.title} icon={featureIcons[index]} {...feature} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="section" id="cena">
-          <div className="container">
-            <div className="pricing-card">
-              <div>
-                <p className="section-eyebrow text-left">Цена</p>
-                <h2 className="section-title text-left">{pricing.title}</h2>
-                <p className="section-description mx-0 text-left">{pricing.note}</p>
-              </div>
-              <div className="price-box">
-                <p className="text-sm font-medium text-ink/60">Ранен достъп</p>
-                <p className="mt-2 text-5xl font-semibold">{pricing.price}</p>
-                <p className="mt-1 text-ink/60">{pricing.period}</p>
-                <a href={telegramUrl} className="btn btn-primary mt-6 w-full">
-                  <Send size={18} />
-                  {pricing.cta}
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="section bg-white" id="kak-raboti">
-          <div className="container">
-            <SectionHeader eyebrow="Как работи" title="От първото търсене до първата добра обява." />
-            <div className="mt-10 grid gap-5 md:grid-cols-3">
-              {steps.map((step, index) => {
-                const Icon = stepIcons[index];
-                const isOpen = openStep === step.title;
-                return (
-                  <article key={step.title} className={`step-card ${isOpen ? "is-open" : ""}`}>
-                    <button
-                      className="step-card-toggle"
-                      type="button"
-                      aria-expanded={isOpen}
-                      onClick={() => setOpenStep((current) => (current === step.title ? null : step.title))}
-                    >
-                      <span className="icon-badge">
-                        <Icon size={21} aria-hidden="true" />
-                      </span>
-                      <span className="step-card-title">{step.title}</span>
-                      <ChevronDown className="step-card-chevron" size={19} aria-hidden="true" />
-                    </button>
-                    <span className="step-number">0{index + 1}</span>
-                    <p className="step-card-description">{step.description}</p>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        <section className="section bg-white" id="faq">
-          <div className="container">
-            <SectionHeader eyebrow="Въпроси" title="Кратко и по същество." />
-            <div className="mx-auto mt-10 max-w-3xl divide-y divide-ink/10 rounded-lg border border-ink/10 bg-paper">
-              {faqs.map((faq) => (
-                <details key={faq.question} className="faq-item">
-                  <summary>{faq.question}</summary>
-                  <p>{faq.answer}</p>
-                </details>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="final-cta">
-          <div className="cta-aurora" aria-hidden="true" />
-          <div className="container text-center">
-            <h2 className="mx-auto max-w-3xl text-[2rem] font-semibold leading-tight text-white sm:text-4xl">
-              Започни с едно търсене и остави imot.ly да следи пазара вместо теб.
-            </h2>
-            <a href={telegramUrl} className="btn btn-light mt-8 w-full max-w-xs sm:w-auto sm:max-w-none">
-              <Send size={18} />
-              Стартирай в Telegram
-            </a>
-          </div>
-        </section>
+        <Hero />
+        <TrustStrip />
+        <HowItWorks />
+        <ProductDemo />
+        <Scenario />
+        <AudienceSection />
+        <PhotoShowcase />
+        <PricingSection />
+        <FAQSection />
+        <FinalCTA />
       </main>
-
-      <footer className="border-t border-ink/10 bg-paper py-8">
-        <div className="container flex flex-col gap-5 text-sm text-ink/60 md:flex-row md:items-center md:justify-between">
-          <div className="footer-brand">
-            <p className="font-semibold text-ink">imot.ly</p>
-            <p className="footer-powered">
-              <span>Power By</span>
-              <a href="https://agiledelivery.eu" target="_blank" rel="noreferrer" aria-label="AgileDelivery website">AgileDelivery<span aria-hidden="true">↗</span></a>
-            </p>
-          </div>
-          <address className="footer-contact">
-            <span>Контакти</span>
-            <a href="mailto:info@agiledelivery.eu">info@agiledelivery.eu</a>
-            <a href="tel:+359898203128">+359 898 203 128</a>
-          </address>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
 
-function KeyIcon() {
+function Header() {
   return (
-    <svg className="property-icon key-one" viewBox="0 0 64 64" fill="none" aria-hidden="true">
-      <circle cx="22" cy="22" r="9" stroke="currentColor" strokeWidth="3" />
-      <path d="M29 29L50 50" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-      <path d="M43 43L49 37" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-      <path d="M49 49L55 43" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-    </svg>
+    <header className="site-header">
+      <nav className="container nav-shell" aria-label="Основна навигация">
+        <a href="#" className="logo-link" aria-label="imot.ly начало">
+          <img className="logo-image" src="/assets/imotly-logo.png" alt="" aria-hidden="true" />
+          <span className="brand-word">IMOT.LY</span>
+        </a>
+
+        <div className="nav-links" aria-label="Секции">
+          {navLinks.map((link) => (
+            <a key={link.href} href={link.href}>
+              {link.label}
+            </a>
+          ))}
+        </div>
+
+        <ButtonLink href={telegramUrl} className="header-cta" showTelegramIcon ariaLabel="Започни в Telegram">
+          Започни в Telegram
+        </ButtonLink>
+      </nav>
+    </header>
+  );
+}
+
+function Hero() {
+  return (
+    <section className="hero-section" aria-labelledby="hero-title">
+      <div className="container hero-grid">
+        <div className="hero-copy">
+          <p className="hero-label">{hero.label}</p>
+          <h1 id="hero-title">{hero.title}</h1>
+          <p>{hero.description}</p>
+          <div className="hero-actions">
+            <ButtonLink href={telegramUrl} showTelegramIcon ariaLabel="Започни в Telegram">
+              {hero.primaryCta}
+            </ButtonLink>
+            <ButtonLink href="#kak-raboti" variant="secondary">
+              {hero.secondaryCta}
+            </ButtonLink>
+          </div>
+        </div>
+
+        <figure className="hero-visual">
+          <img src={hero.imageUrl} alt={hero.imageAlt} width="1200" height="900" fetchPriority="high" />
+          <figcaption className="sr-only">{hero.imageAlt}</figcaption>
+          <div className="hero-search-card" aria-hidden="true">
+            <span>Търсене</span>
+            <strong>Двустаен в София</strong>
+            <p>Лозенец · Иван Вазов · до 280 000{"\u00a0"}€</p>
+            <div>
+              <small>imot.bg</small>
+              <small>olx.bg</small>
+              <small>alo.bg</small>
+            </div>
+          </div>
+          <div className="hero-alert-card" aria-hidden="true">
+            <span className="alert-dot" />
+            <div>
+              <strong>Нова подходяща обява</strong>
+              <p>пристигна в Telegram преди 4 мин</p>
+            </div>
+          </div>
+        </figure>
+      </div>
+    </section>
+  );
+}
+
+function TrustStrip() {
+  return (
+    <section className="trust-section" aria-label="Основни предимства">
+      <div className="container">
+        <div className="trust-strip">
+          {trustPoints.map((point, index) => {
+            const Icon = valueIcons[index];
+            return <ValueItem key={point.title} icon={Icon} {...point} />;
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function HowItWorks() {
+  return (
+    <section className="section" id="kak-raboti">
+      <div className="container split-section">
+        <SectionHeader
+          align="left"
+          eyebrow="Как работи"
+          title="От първото търсене до първата добра обява."
+          description="Три ясни стъпки, без ново приложение и без постоянно проверяване на сайтове."
+        />
+        <div className="steps-grid">
+          {howItWorks.map((step, index) => {
+            const Icon = stepIcons[index];
+            return <IconCard key={step.title} icon={Icon} index={index} {...step} />;
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ProductDemo() {
+  return (
+    <section className="section section-white" id="demo">
+      <div className="container demo-layout">
+        <div>
+          <SectionHeader
+            align="left"
+            eyebrow="Продуктът"
+            title="Твоята пряка връзка с големите имотни сайтове"
+            description="Задаваш филтри, получаваш новите съвпадения и отваряш оригиналната обява, когато искаш да видиш детайлите."
+          />
+          <ButtonLink href={telegramUrl} className="section-cta" showTelegramIcon>
+            Започни сега
+          </ButtonLink>
+        </div>
+
+        <ProductFrame label="Демо визуализация на imot.ly в Telegram">
+          <div className="product-screenshots" aria-label="Екрани от IMOT.LY в Telegram">
+            <figure className="product-shot">
+              <img src="/assets/product-radars.png" alt="Екран с активни имотни търсения в IMOT.LY" loading="lazy" decoding="async" width="840" height="1522" />
+            </figure>
+            <figure className="product-shot">
+              <img src="/assets/product-listing.png" alt="Екран с детайли за нова имотна обява в IMOT.LY" loading="lazy" decoding="async" width="874" height="1708" />
+            </figure>
+          </div>
+        </ProductFrame>
+      </div>
+    </section>
+  );
+}
+
+function Scenario() {
+  return (
+    <section className="scenario-section">
+      <div className="container scenario-card reveal-card">
+        <div className="scenario-copy">
+          <p className="section-eyebrow">{scenario.eyebrow}</p>
+          <h2>{scenario.title}</h2>
+          <p>{scenario.description}</p>
+        </div>
+        <img src={scenario.imageUrl} alt={scenario.imageAlt} loading="lazy" decoding="async" width="1100" height="760" />
+      </div>
+    </section>
+  );
+}
+
+function AudienceSection() {
+  return (
+    <section className="audience-section" aria-labelledby="audience-title">
+      <div className="container">
+        <div className="audience-hero">
+          <p className="audience-pill">За всички, които търсят имоти</p>
+          <h2 id="audience-title">
+            Първи до имотите, <span>важни за теб.</span>
+            <br />
+            Полезен за търсещи и за брокери.
+          </h2>
+          <p>
+            Получавай новите обяви веднага и действай преди останалите. Спести време, намери повече възможности и затвори сделка по-бързо.
+          </p>
+        </div>
+        <div className="audience-grid">
+          {audiences.map((audience, index) => {
+            const Icon = audienceIcons[index];
+            return <IconCard key={audience.title} icon={Icon} {...audience} />;
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PhotoShowcase() {
+  return (
+    <section className="photo-section" aria-labelledby="photo-title">
+      <div className="container">
+        <div className="photo-heading">
+          <SectionHeader
+            align="left"
+            eyebrow="Контекст"
+            title="Имотни ситуации, не абстрактни обещания."
+            description="Сайтът остава близо до реалното търсене: квартали, бюджет, подходящо жилище и работа с повече от един сценарий."
+          />
+        </div>
+        <div className="photo-grid">
+          {photoShowcase.map((photo) => (
+            <PhotoCard key={photo.title} {...photo} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PricingSection() {
+  return (
+    <section className="section section-white" id="cena">
+      <div className="container pricing-layout">
+        <SectionHeader align="left" eyebrow={pricing.eyebrow} title={pricing.title} description="Цената е лесна за разбиране и съобразена с началната версия на продукта." />
+        <PricingCard
+          price={pricing.price}
+          period={pricing.period}
+          suitableFor={pricing.suitableFor}
+          note={pricing.note}
+          inclusions={pricing.inclusions}
+          cta={
+            <ButtonLink href={telegramUrl} className="pricing-button" showTelegramIcon>
+              {pricing.cta}
+            </ButtonLink>
+          }
+        />
+      </div>
+    </section>
+  );
+}
+
+function FAQSection() {
+  return (
+    <section className="section" id="faq">
+      <div className="container faq-layout">
+        <SectionHeader eyebrow="Въпроси" title="Кратко и по същество." description="Отговори на най-важното преди да започнеш." />
+        <FAQAccordion items={faqs} />
+      </div>
+    </section>
+  );
+}
+
+function FinalCTA() {
+  return (
+    <section className="final-cta" aria-labelledby="final-cta-title">
+      <div className="container final-cta-card">
+        <div>
+          <p className="section-eyebrow">Готов ли си?</p>
+          <h2 id="final-cta-title">{finalCta.title}</h2>
+          <p>{finalCta.description}</p>
+        </div>
+        <ButtonLink href={telegramUrl} className="final-cta-button" showTelegramIcon>
+          {finalCta.cta}
+        </ButtonLink>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="site-footer">
+      <div className="container footer-grid">
+        <div className="footer-brand">
+          <a href="#" className="logo-link" aria-label="imot.ly начало">
+            <img className="logo-image" src="/assets/imotly-logo.png" alt="" aria-hidden="true" />
+            <span className="brand-word">IMOT.LY</span>
+          </a>
+          <p className="footer-powered">
+            <span>Power By</span>
+            <a href="https://agiledelivery.eu" target="_blank" rel="noreferrer" aria-label="AgileDelivery website">
+              <img src="/assets/agile-delivery-logo.svg" alt="" aria-hidden="true" />
+              <span>AgileDelivery</span>
+            </a>
+          </p>
+        </div>
+
+        <address className="footer-contact">
+          <span>Контакти:</span>
+          <a href="mailto:info@agiledelivery.eu">info@agiledelivery.eu</a>
+          <span aria-hidden="true">&</span>
+          <a href="tel:+359898203128">+359 898 203 128</a>
+        </address>
+      </div>
+    </footer>
   );
 }
 
