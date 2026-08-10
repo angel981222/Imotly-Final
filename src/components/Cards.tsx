@@ -1,4 +1,4 @@
-import { Check, ChevronDown, ExternalLink, type LucideIcon } from "lucide-react";
+import { ChevronDown, ExternalLink, type LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
 type IconCardProps = {
@@ -62,34 +62,33 @@ export function ProductFrame({ children, label }: ProductFrameProps) {
 }
 
 type PricingCardProps = {
-  price: string;
-  period: string;
+  name: string;
+  duration: string;
+  originalPrice: string;
+  promotionalPrice: string;
   suitableFor: string;
-  note: string;
-  inclusions: string[];
+  badge?: string;
+  note?: string;
+  featured?: boolean;
   cta: ReactNode;
 };
 
-export function PricingCard({ price, period, suitableFor, note, inclusions, cta }: PricingCardProps) {
+export function PricingCard({ name, duration, originalPrice, promotionalPrice, suitableFor, badge, note, featured, cta }: PricingCardProps) {
   return (
-    <article className="pricing-card reveal-card">
-      <div>
-        <p className="pricing-label">Ранен достъп</p>
-        <div className="price-row">
-          <strong>{price}</strong>
-          <span>{period}</span>
+    <article className={`pricing-card reveal-card ${featured ? "pricing-card-featured" : ""}`}>
+      <div className="pricing-card-header">
+        <div>
+          <h3>{name}</h3>
+          <p className="pricing-duration">{duration}</p>
         </div>
-        <p className="pricing-suitable">{suitableFor}</p>
+        {badge ? <span className="pricing-badge">{badge}</span> : null}
       </div>
-      <ul className="pricing-list" aria-label="Включено в плана">
-        {inclusions.map((item) => (
-          <li key={item}>
-            <Check size={18} aria-hidden="true" />
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
-      <p className="pricing-note">{note}</p>
+      <div className="pricing-price-stack">
+        <span className="pricing-original">{originalPrice}</span>
+        <strong>{promotionalPrice}</strong>
+      </div>
+      <p className="pricing-suitable">{suitableFor}</p>
+      {note ? <p className="pricing-note">{note}</p> : null}
       {cta}
     </article>
   );

@@ -1,11 +1,15 @@
+import { useEffect, useState } from "react";
 import {
   Bell,
   Briefcase,
   Building2,
+  ChevronRight,
   Clock3,
+  Menu,
   Search,
   Send,
   SlidersHorizontal,
+  X,
   UserRound,
 } from "lucide-react";
 import { ButtonLink } from "./components/Buttons";
@@ -21,7 +25,6 @@ import {
   photoShowcase,
   pricing,
   scenario,
-  telegramUrl,
   trustPoints,
 } from "./content/siteContent";
 
@@ -33,6 +36,7 @@ function App() {
   return (
     <div className="site-shell">
       <Header />
+      <FloatingCtaButton />
       <main>
         <Hero />
         <TrustStrip />
@@ -51,10 +55,28 @@ function App() {
 }
 
 function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  const closeMenu = () => setIsMenuOpen(false);
+
   return (
     <header className="site-header">
       <nav className="container nav-shell" aria-label="Основна навигация">
-        <a href="#" className="logo-link" aria-label="imot.ly начало">
+        <a href="#" className="logo-link" aria-label="imot.ly начало" onClick={closeMenu}>
           <img className="logo-image" src="/assets/imotly-logo.png" alt="" aria-hidden="true" />
           <span className="brand-word">IMOT.LY</span>
         </a>
@@ -67,11 +89,91 @@ function Header() {
           ))}
         </div>
 
-        <ButtonLink href={telegramUrl} className="header-cta" showTelegramIcon ariaLabel="Започни в Telegram">
-          Започни в Telegram
-        </ButtonLink>
+        <button
+          className="mobile-menu-toggle"
+          type="button"
+          aria-label={isMenuOpen ? "Затвори менюто" : "Отвори менюто"}
+          aria-expanded={isMenuOpen}
+          aria-controls="mobile-menu"
+          onClick={() => setIsMenuOpen((open) => !open)}
+        >
+          {isMenuOpen ? <X size={24} strokeWidth={2.3} aria-hidden="true" /> : <Menu size={24} strokeWidth={2.3} aria-hidden="true" />}
+        </button>
       </nav>
+
+      <div id="mobile-menu" className={`mobile-menu-panel ${isMenuOpen ? "is-open" : ""}`} aria-hidden={!isMenuOpen}>
+        <div className="mobile-menu-inner">
+          <div className="mobile-menu-links" aria-label="Мобилна навигация">
+            {navLinks.map((link) => (
+              <a key={link.href} href={link.href} onClick={closeMenu}>
+                <span>{link.label}</span>
+                <ChevronRight size={22} strokeWidth={2.2} aria-hidden="true" />
+              </a>
+            ))}
+          </div>
+
+          <div className="mobile-menu-actions">
+            <ButtonLink href="#pricing" variant="secondary" showArrow>
+              Виж цената
+            </ButtonLink>
+          </div>
+        </div>
+      </div>
     </header>
+  );
+}
+
+function FloatingCtaButton() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const pricingSection = document.getElementById("pricing");
+    const heroCta = document.getElementById("hero-primary-cta");
+    let isPricingVisible = false;
+
+    const updateVisibility = () => {
+      const isMobile = window.matchMedia("(max-width: 767px)").matches;
+      const pricingRect = pricingSection?.getBoundingClientRect();
+      const pricingInViewport = pricingRect ? pricingRect.top < window.innerHeight * 0.92 && pricingRect.bottom > 96 : false;
+      const heroCtaPassed = heroCta ? heroCta.getBoundingClientRect().bottom < 16 : window.scrollY > 360;
+
+      setIsVisible(!(isPricingVisible || pricingInViewport) && (!isMobile || heroCtaPassed));
+    };
+
+    const pricingObserver = pricingSection
+      ? new IntersectionObserver(
+          ([entry]) => {
+            isPricingVisible = entry.isIntersecting;
+            updateVisibility();
+          },
+          { threshold: 0.08, rootMargin: "0px 0px -18% 0px" },
+        )
+      : null;
+
+    if (pricingSection) {
+      pricingObserver?.observe(pricingSection);
+    }
+
+    updateVisibility();
+    window.addEventListener("scroll", updateVisibility, { passive: true });
+    window.addEventListener("resize", updateVisibility);
+
+    return () => {
+      pricingObserver?.disconnect();
+      window.removeEventListener("scroll", updateVisibility);
+      window.removeEventListener("resize", updateVisibility);
+    };
+  }, []);
+
+  return (
+    <ButtonLink
+      href="#pricing"
+      className={`floating-cta ${isVisible ? "is-visible" : ""}`}
+      showArrow
+      ariaLabel="Започни сега"
+    >
+      Започни сега
+    </ButtonLink>
   );
 }
 
@@ -84,12 +186,10 @@ function Hero() {
           <h1 id="hero-title">{hero.title}</h1>
           <p>{hero.description}</p>
           <div className="hero-actions">
-            <ButtonLink href={telegramUrl} showTelegramIcon ariaLabel="Започни в Telegram">
-              {hero.primaryCta}
+            <ButtonLink id="hero-primary-cta" href="#pricing" className="hero-primary-cta" showArrow>
+              Започни сега
             </ButtonLink>
-            <ButtonLink href="#kak-raboti" variant="secondary">
-              {hero.secondaryCta}
-            </ButtonLink>
+            <p className="hero-cta-helper">Избери план и започни за минута.</p>
           </div>
         </div>
 
@@ -166,21 +266,25 @@ function ProductDemo() {
             title="Твоята пряка връзка с големите имотни сайтове"
             description="Задаваш филтри, получаваш новите съвпадения и отваряш оригиналната обява, когато искаш да видиш детайлите."
           />
-          <ButtonLink href={telegramUrl} className="section-cta" showTelegramIcon>
-            Започни сега
-          </ButtonLink>
         </div>
 
-        <ProductFrame label="Демо визуализация на imot.ly в Telegram">
-          <div className="product-screenshots" aria-label="Екрани от IMOT.LY в Telegram">
-            <figure className="product-shot">
-              <img src="/assets/product-radars.png" alt="Екран с активни имотни търсения в IMOT.LY" loading="lazy" decoding="async" width="840" height="1522" />
-            </figure>
-            <figure className="product-shot">
-              <img src="/assets/product-listing.png" alt="Екран с детайли за нова имотна обява в IMOT.LY" loading="lazy" decoding="async" width="874" height="1708" />
-            </figure>
+        <div className="demo-product-column">
+          <ProductFrame label="Демо визуализация на imot.ly в Telegram">
+            <div className="product-screenshots" aria-label="Екрани от IMOT.LY в Telegram">
+              <figure className="product-shot">
+                <img src="/assets/product-radars.webp" alt="Екран с активни имотни търсения в IMOT.LY" loading="lazy" decoding="async" width="842" height="1706" />
+              </figure>
+              <figure className="product-shot">
+                <img src="/assets/product-listing.webp" alt="Екран с детайли за нова имотна обява в IMOT.LY" loading="lazy" decoding="async" width="844" height="1714" />
+              </figure>
+            </div>
+          </ProductFrame>
+          <div className="demo-followup-cta">
+            <ButtonLink href="#pricing" className="stationary-cta" showArrow>
+              Започни сега
+            </ButtonLink>
           </div>
-        </ProductFrame>
+        </div>
       </div>
     </section>
   );
@@ -189,13 +293,15 @@ function ProductDemo() {
 function Scenario() {
   return (
     <section className="scenario-section">
-      <div className="container scenario-card reveal-card">
-        <div className="scenario-copy">
-          <p className="section-eyebrow">{scenario.eyebrow}</p>
-          <h2>{scenario.title}</h2>
-          <p>{scenario.description}</p>
+      <div className="container">
+        <div className="scenario-card reveal-card">
+          <div className="scenario-copy">
+            <p className="section-eyebrow">{scenario.eyebrow}</p>
+            <h2>{scenario.title}</h2>
+            <p>{scenario.description}</p>
+          </div>
+          <img src={scenario.imageUrl} alt={scenario.imageAlt} loading="lazy" decoding="async" width="1100" height="760" />
         </div>
-        <img src={scenario.imageUrl} alt={scenario.imageAlt} loading="lazy" decoding="async" width="1100" height="760" />
       </div>
     </section>
   );
@@ -251,21 +357,25 @@ function PhotoShowcase() {
 
 function PricingSection() {
   return (
-    <section className="section section-white" id="cena">
+    <section className="section section-white" id="pricing">
       <div className="container pricing-layout">
-        <SectionHeader align="left" eyebrow={pricing.eyebrow} title={pricing.title} description="Цената е лесна за разбиране и съобразена с началната версия на продукта." />
-        <PricingCard
-          price={pricing.price}
-          period={pricing.period}
-          suitableFor={pricing.suitableFor}
-          note={pricing.note}
-          inclusions={pricing.inclusions}
-          cta={
-            <ButtonLink href={telegramUrl} className="pricing-button" showTelegramIcon>
-              {pricing.cta}
-            </ButtonLink>
-          }
-        />
+        <div className="pricing-copy">
+          <SectionHeader align="left" eyebrow={pricing.eyebrow} title={pricing.title} description={pricing.description} />
+          <p className="pricing-note-main">{pricing.note}</p>
+        </div>
+        <div className="pricing-cards" aria-label="Планове за IMOT.LY">
+          {pricing.plans.map((plan) => (
+            <PricingCard
+              key={plan.name}
+              {...plan}
+              cta={
+                <ButtonLink href={plan.href} className="pricing-button stationary-cta" ariaLabel={`Избери план ${plan.name}`} showArrow>
+                  {plan.cta}
+                </ButtonLink>
+              }
+            />
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -285,15 +395,17 @@ function FAQSection() {
 function FinalCTA() {
   return (
     <section className="final-cta" aria-labelledby="final-cta-title">
-      <div className="container final-cta-card">
-        <div>
-          <p className="section-eyebrow">Готов ли си?</p>
-          <h2 id="final-cta-title">{finalCta.title}</h2>
-          <p>{finalCta.description}</p>
+      <div className="container">
+        <div className="final-cta-card">
+          <div>
+            <p className="section-eyebrow">Готов ли си?</p>
+            <h2 id="final-cta-title">{finalCta.title}</h2>
+            <p>{finalCta.description}</p>
+          </div>
+          <ButtonLink href="#pricing" className="stationary-cta" showArrow>
+            Започни сега
+          </ButtonLink>
         </div>
-        <ButtonLink href={telegramUrl} className="final-cta-button" showTelegramIcon>
-          {finalCta.cta}
-        </ButtonLink>
       </div>
     </section>
   );
@@ -309,7 +421,7 @@ function Footer() {
             <span className="brand-word">IMOT.LY</span>
           </a>
           <p className="footer-powered">
-            <span>Power By</span>
+            <span>Powered by</span>
             <a href="https://agiledelivery.eu" target="_blank" rel="noreferrer" aria-label="AgileDelivery website">
               <img src="/assets/agile-delivery-logo.svg" alt="" aria-hidden="true" />
               <span>AgileDelivery</span>
@@ -320,7 +432,7 @@ function Footer() {
         <address className="footer-contact">
           <span>Контакти:</span>
           <a href="mailto:info@agiledelivery.eu">info@agiledelivery.eu</a>
-          <span aria-hidden="true">&</span>
+          <span className="footer-contact-separator" aria-hidden="true">&</span>
           <a href="tel:+359898203128">+359 898 203 128</a>
         </address>
       </div>

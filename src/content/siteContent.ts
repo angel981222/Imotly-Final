@@ -3,7 +3,7 @@ export const telegramUrl = "https://t.me/imotlyai_bot";
 export const navLinks = [
   { label: "Как работи", href: "#kak-raboti" },
   { label: "Демо", href: "#demo" },
-  { label: "Цена", href: "#cena" },
+  { label: "Цена", href: "#pricing" },
   { label: "Въпроси", href: "#faq" },
 ];
 
@@ -12,8 +12,6 @@ export const hero = {
   title: "Добрите имоти не чакат.",
   description:
     "Избираш какво търсиш. IMOT.LY следи новите обяви от основните имотни сайтове и ти изпраща подходящите веднага.",
-  primaryCta: "Започни в Telegram",
-  secondaryCta: "Виж как работи",
   imageUrl: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1200",
   imageAlt: "Светъл модерен апартамент с дневна и големи прозорци",
 };
@@ -111,19 +109,42 @@ export const photoShowcase = [
 ];
 
 export const pricing = {
-  eyebrow: "Цена",
-  title: "Един ясен план за ранен достъп.",
-  price: "5 EUR",
-  period: "на месец",
-  suitableFor: "Подходящ за лично търсене и за брокери с няколко активни сценария.",
-  note: "Повече възможности на половин цена. Без сложни пакети в началната версия.",
-  inclusions: [
-    "Няколко активни търсения",
-    "Почасови, дневни или ръчни проверки",
-    "Филтри по критерии и източници",
-    "Известия директно в Telegram",
+  eyebrow: "Пилотна промоция",
+  title: "Избери стартов план.",
+  description: "Специални стартови цени за първите потребители на IMOT.ly.",
+  note: "Спести до 34% от стандартната цена. Промоционалните цени важат за старта на продукта.",
+  plans: [
+    {
+      name: "Месечен",
+      duration: "1 месец",
+      originalPrice: "15 €",
+      promotionalPrice: "9,50 €",
+      suitableFor: "Наематели",
+      cta: "Избери план",
+      href: telegramUrl,
+    },
+    {
+      name: "Тримесечен",
+      duration: "3 месеца",
+      originalPrice: "37,50 €",
+      promotionalPrice: "22,50 €",
+      suitableFor: "Купувачи и наематели",
+      cta: "Избери план",
+      href: telegramUrl,
+    },
+    {
+      name: "Основател",
+      duration: "12 месеца",
+      originalPrice: "90 €",
+      promotionalPrice: "59,50 €",
+      suitableFor: "Брокери, флипъри и инвеститори",
+      cta: "Избери план",
+      href: telegramUrl,
+      badge: "Само за първите 100",
+      note: "Ограничено до първите 100 закупили.",
+      featured: true,
+    },
   ],
-  cta: "Започни в Telegram",
 };
 
 export const faqs = [
@@ -154,7 +175,6 @@ export const faqs = [
 ];
 
 export const finalCta = {
-  title: "Следващата добра обява може да излезе всеки момент.",
-  description: "Настрой търсенето си и я виж навреме.",
-  cta: "Започни в Telegram",
+  title: "Готов ли си да намираш добрите обяви навреме?",
+  description: "Избери план и настрой търсенето си за минута.",
 };

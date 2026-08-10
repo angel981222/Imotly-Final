@@ -11,6 +11,7 @@ type ButtonLinkProps = {
   showArrow?: boolean;
   showTelegramIcon?: boolean;
   ariaLabel?: string;
+  id?: string;
 };
 
 export function ButtonLink({
@@ -21,9 +22,10 @@ export function ButtonLink({
   showArrow = false,
   showTelegramIcon = false,
   ariaLabel,
+  id,
 }: ButtonLinkProps) {
   return (
-    <a href={href} aria-label={ariaLabel} className={`button-link button-link-${variant} ${className}`.trim()}>
+    <a id={id} href={href} aria-label={ariaLabel} className={`button-link button-link-${variant} ${className}`.trim()}>
       {showTelegramIcon ? (
         <span className="button-symbol" aria-hidden="true">
           <Send size={16} strokeWidth={2.2} />
